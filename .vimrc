@@ -7,15 +7,24 @@
 " PLUGINS
 """"""""""""""""""""
 call plug#begin('~/.vim/plugged')
-    " Install colorscheme
+    " Colorscheme
     Plug 'tyrannicaltoucan/vim-deep-space'
-    " Install lightline
+    
+    " Statusline 
     Plug 'itchyny/lightline.vim'
-    " Install fuzzy file finder
+    
+    " Fuzzy file finder
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
+    
+    " Git integration
     Plug 'tpope/vim-fugitive'
+    
+    " Pretty git statuses on the side
     Plug 'airblade/vim-gitgutter'
+
+    " Linting for various languages
+    Plug 'vim-syntastic/syntastic'
 call plug#end()
 
 """"""""""""""""""""
@@ -38,6 +47,19 @@ let g:lightline = {
                   \    'gitbranch': 'fugitive#head'
                   \    },
                   \}    
+
+""""""""""""""""""""
+" LINTING SETUP
+""""""""""""""""""""
+" Default config for syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 """"""""""""""""""""
 " COLORS
@@ -115,6 +137,6 @@ nnoremap <C-l> <C-w>l
 nnoremap j gj
 nnoremap k gk
 
-"allow mouse to be used for window resizeing
+"allow mouse to be used for window resizing
 set mouse=n
 
