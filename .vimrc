@@ -25,6 +25,13 @@ call plug#begin('~/.vim/plugged')
 
     " Linting for various languages
     Plug 'vim-syntastic/syntastic'
+
+    " Language specific plugins
+    " Rust
+    Plug 'rust-lang/rust.vim'
+    " Go
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 call plug#end()
 
 """"""""""""""""""""
