@@ -9,7 +9,7 @@ from abc import ABC,abstractmethod
 
 class Dotfile(ABC):
     """
-    @brief Abstract class which defines the abstract setup of a dotfile
+    @brief Abstract class which defines the generic setup of a dotfile.
     """
     def __init__(self):
         self.__home_file   = ""
@@ -18,9 +18,15 @@ class Dotfile(ABC):
         self.__link_map    = {} 
         self.setVars()
     
-    def configure(self):
+    def link(self):
         self.__findFilesToLink()
         self.__linkFiles()
+
+    def update(self):
+        pass
+
+    def unlink(self):
+        pass
 
     def setCommentTok(self, comment_char):
         self.__comment_tok = comment_char

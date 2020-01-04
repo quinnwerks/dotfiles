@@ -6,18 +6,15 @@ import argparse
 from dotfile import *
 def getArgs():
     parser = argparse.ArgumentParser(description="Set Up My Terminal Workflow")
-    parser.add_argument("--vim", dest="vim", help="Set up vim workflow", action="store_true")
-    parser.add_argument("--all", dest="all", help="Set up all available workflows", action="store_true")
+    parser.add_argument("--unlink", dest="unlink", nargs="*", type=str, help="Unlink dotfiles")
+    parser.add_argument("--update", dest="update", nargs="*", type=str, help="Update tags")
+    parser.add_argument("--link",   dest="link",   nargs="*", type=str, help="Link dotfiles")
     args = parser.parse_args()
-    return {"vim":args.vim, "all":args.all}
-
-
+    return args
 
 
 def main():
     args = getArgs()
-    dfile = Vimrc()
-    dfile.configure()
 
 
 
