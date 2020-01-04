@@ -18,6 +18,16 @@ class Dotfile(ABC):
         self.__link_map    = {} 
         self.setVars()
     
+    def configure(self, arg):
+        if arg is "link":
+            self.link()
+        elif arg is "unlink":
+            self.unlink()
+        elif arg is "update":
+            self.update()
+        else:
+            logging.warning("%s is not an argument for a dotfile" % arg)
+
     def link(self):
         self.__findFilesToLink()
         self.__linkFiles()
