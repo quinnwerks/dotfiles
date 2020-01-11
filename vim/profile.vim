@@ -6,6 +6,13 @@
 """"""""""""""""""""
 " PLUGINS
 """"""""""""""""""""
+" Automate installation of plugin manager. Note: requires curl.
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin('~/.vim/plugged')
     " Colorscheme
     Plug 'tyrannicaltoucan/vim-deep-space'
@@ -129,8 +136,8 @@ set showcmd
 " VIM UI NAVIGATION
 """"""""""""""""""""
 " Navigation between vim tabs
-nnoremap th :tabnext<CR>
-nnoremap tl :tabprev<CR>
+nnoremap th :tabprev<CR>
+nnoremap tl :tabnext<CR>
 nnoremap tn :tabnew<CR>
 nnoremap tc :tabclose<CR>
 
