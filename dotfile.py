@@ -108,4 +108,10 @@ class Vimrc(Dotfile):
     def getSourceStr(self, file_path):
         return "try\n\tsource %s\ncatch\nendtry" % (file_path)
         
+class Zshrc(Dotfile):
+    def setVars(self):
+        self.setCommentTok("#")
+        self.setPaths(".zshrc", "zsh")
 
+    def getSourceStr(self, file_path):
+        return "if [ -f %s ]; then\n\tsource %s\nelse\n\tprint \"%s not found\"\nfi" % (file_path, file_path, file_path)
