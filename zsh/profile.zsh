@@ -49,7 +49,7 @@ zstyle ':vcs_info:*' enable git
 precmd() { vcs_info }
 
 zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:*'    formats "%b-%m%u%c" 
+zstyle ':vcs_info:*'    formats "%b─%m%u%c" 
 
 
 # The purposes of the following functions are obvious
