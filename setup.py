@@ -7,9 +7,7 @@ import sys
 from manager import *
 def getArgs(parser):
     parser_args = parser.parse_args()
-    return_args = {"link":set(parser_args.link), \
-                   "unlink":set(parser_args.unlink), \
-                   "update":set(parser_args.update)}
+    return_args = {"link":set(parser_args.link)}
     return return_args
 
 def setUpParser():
