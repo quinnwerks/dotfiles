@@ -37,9 +37,20 @@ alias ll="$LS -al"
 #
 # Configure the prompt
 #
+setopt PROMPT_SUBST 
 
 # Assume we have colors available. This isn't the 1990's.
 autoload colors && colors
+
+# Load VCS Info for querying git
+autoload vcs_info && vcs_info
+zstyle ':vcs_info:*' enable git
+
+precmd() { vcs_info }
+
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:*'    formats "%b-%m%u%c" 
+
 
 # The purposes of the following functions are obvious
 function get_time() {
@@ -60,9 +71,10 @@ function get_first_line() {
 }
 
 function get_second_line() {
-    echo "%{$fg[grey]%}╰─%{$fg[grey]%}$(get_unicode_arrow)  %{$reset_color%}"
+    echo "%{$fg[grey]%}╰─${vcs_info_msg_0_}%{$fg[grey]%}$(get_unicode_arrow)  %{$reset_color%}"
 }
 
-PROMPT="$(get_first_line)
-$(get_second_line)"
+
+PROMPT='$(get_first_line)
+$(get_second_line)'
 
