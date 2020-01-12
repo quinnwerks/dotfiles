@@ -22,6 +22,9 @@ HISTSIZE=2000
 setopt CORRECT
 setopt CORRECT_ALL
 
+# Enable better tab completion
+#autoload compinit && compinit
+
 # 
 # Aliases
 #
@@ -53,11 +56,11 @@ function get_unicode_arrow() {
 }
 
 function get_first_line() {
-    echo "$fg[grey]╭─ $fg[cyan][$(get_time)] $fg[yellow]$(get_user): $fg[green]$(get_pwd) $reset_color"
+    echo "%{$fg[grey]%}╭─ %{$fg[cyan]%}[$(get_time)] %{$fg[yellow]%}$(get_user): %{$fg[green]%}$(get_pwd) %{$reset_color%}"
 }
 
 function get_second_line() {
-        echo "$fg[grey]╰─$fg[grey]$(get_unicode_arrow)  $reset_color"
+    echo "%{$fg[grey]%}╰─%{$fg[grey]%}$(get_unicode_arrow)  %{$reset_color%}"
 }
 
 PROMPT="$(get_first_line)
