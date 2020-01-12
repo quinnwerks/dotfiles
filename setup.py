@@ -14,8 +14,6 @@ def getArgs(parser):
 
 def setUpParser():
     parser = argparse.ArgumentParser(description="Set Up My Terminal Workflow")
-    parser.add_argument("--unlink", dest="unlink", nargs="*", default=[], type=str, help="Unlink dotfiles")
-    parser.add_argument("--update", dest="update", nargs="*", default=[], type=str, help="Update tags")
     parser.add_argument("--link",   dest="link",   nargs="*", default=[], type=str, help="Link dotfiles")
     return parser
 
