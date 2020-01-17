@@ -32,6 +32,8 @@ call plug#begin('~/.vim/plugged')
 
     " Linting for various languages
     Plug 'dense-analysis/ale'
+    " Rust
+    Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
@@ -61,8 +63,9 @@ let g:lightline = {
 """"""""""""""""""""
 " Show errors in list form
 let g:ale_open_list=1
-" Use cargo as rust linter
-let g:ale_rust_cargo_use_check=1
+" Rust 
+let g:ale_linters={'rust': ['cargo']}
+let g:ale_fixers={'rust':['rustfmt']}
 
 """"""""""""""""""""
 " COLORS
