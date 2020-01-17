@@ -64,7 +64,7 @@ let g:lightline = {
 " Show errors in list form
 let g:ale_open_list=1
 " Rust 
-let g:ale_linters={'rust': ['cargo']}
+let g:ale_linters={'rust': ['rls']}
 let g:ale_fixers={'rust':['rustfmt']}
 
 """"""""""""""""""""
