@@ -31,13 +31,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
 
     " Linting for various languages
-    Plug 'vim-syntastic/syntastic'
-
-    " Language specific plugins
-    " Rust
-    Plug 'rust-lang/rust.vim'
-    " Go
-    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+    Plug 'dense-analysis/ale'
 
 call plug#end()
 
@@ -65,15 +59,10 @@ let g:lightline = {
 """"""""""""""""""""
 " LINTING SETUP
 """"""""""""""""""""
-" Default config for syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" Show errors in list form
+let g:ale_open_list=1
+" Use cargo as rust linter
+let g:ale_rust_cargo_use_check=1
 
 """"""""""""""""""""
 " COLORS
@@ -101,6 +90,7 @@ set tabstop=4
 
 " Set tab to be defined as 4 spaces
 set softtabstop=4
+set shiftwidth=4
 
 " Set tabs=spaces
 set expandtab
