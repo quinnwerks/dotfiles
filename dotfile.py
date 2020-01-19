@@ -115,3 +115,11 @@ class Zshrc(Dotfile):
 
     def getSourceStr(self, file_path):
         return "if [ -f %s ]; then\n\tsource %s\nelse\n\tprint \"%s not found\"\nfi" % (file_path, file_path, file_path)
+
+class TmuxConf(Dotfile):
+    def setVars(self):
+        self.setCommentTok('#')
+        self.setPaths(".tmux.conf", "tmux")
+
+    def getSourceStr(self, file_path):
+        return "source-file %s" % (file_path)

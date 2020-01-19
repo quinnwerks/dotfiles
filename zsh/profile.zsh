@@ -34,6 +34,9 @@ local LS="ls --color"
 alias ls="$LS"
 alias ll="$LS -al"
 
+# Alias for clear
+alias clear="cls"
+
 #
 # Configure the prompt
 #
