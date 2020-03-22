@@ -35,7 +35,7 @@ alias ls="$LS"
 alias ll="$LS -al"
 
 # Alias for clear
-alias clear="cls"
+alias cls="clear"
 
 #
 # Configure the prompt
@@ -81,3 +81,4 @@ function get_second_line() {
 PROMPT='$(get_first_line)
 $(get_second_line)'
 
+export TERM=xterm-256color
