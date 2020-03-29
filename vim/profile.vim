@@ -117,6 +117,9 @@ set showcmd
 """"""""""""""""""""
 " VIM UI NAVIGATION
 """"""""""""""""""""
+" YeeHaw
+set wildmenu
+
 " Set leader key
 let mapleader = "\<Space>"
 " Faster quit, write, search, replace, line select`
