@@ -35,7 +35,7 @@ alias ls="$LS"
 alias ll="$LS -al"
 
 # Alias for clear
-alias clear="cls"
+alias cls="clear"
 
 #
 # Configure the prompt
