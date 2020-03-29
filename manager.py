@@ -9,7 +9,7 @@ class Manager:
     @brief This class manipulates groups of dotfiles
     """
     def __init__(self):
-        self.__dotfile_class_map = {"vim":Vimrc, "zsh":Zshrc, "tmux":TmuxConf}
+        self.__dotfile_class_map = {"vim":Vimrc, "zsh":Zshrc, "tmux":TmuxConf, "emacs":Emacs}
 
     def run(self, arg_sets):
         class_map = self.__dotfile_class_map

@@ -52,8 +52,7 @@ class Dotfile(ABC):
         f.close
 
     def __findFilesToLink(self):
-        repo_dir = Path(os.path.dirname(os.path.abspath(__file__))) 
-        file_dir = Path(repo_dir, self.__file_subdir)
+        file_dir = self.__getRepoPath()
         for _, _, files in os.walk(file_dir): 
             for name in files:
                 file_path = Path(file_dir, name)
@@ -79,11 +78,16 @@ class Dotfile(ABC):
         file_handle = open(file_path, "r")
         return file_handle
 
-    def __openHomeFile(self):
+    def __openHomeFile(self):      
         file_path = self.__getHomeFilePath()
         file_handle = open(file_path, "a")
         return file_handle
     
+    def __getRepoPath(self):
+        repo_dir = Path(os.path.dirname(os.path.abspath(__file__))) 
+        file_dir = Path(repo_dir, self.__file_subdir)
+        return file_dir
+
     def __getLink(self, file_path):
         comment = self.__getCommentTag(file_path)
         source = self.getSourceStr(file_path)
@@ -123,3 +127,11 @@ class TmuxConf(Dotfile):
 
     def getSourceStr(self, file_path):
         return "source-file %s" % (file_path)
+
+class Emacs(Dotfile):
+    def setVars(self):
+        self.setCommentTok(';')
+        self.setPaths(".emacs", "emacs")
+
+    def getSourceStr(self, file_path):
+        return "(if (file-exists-p \"%s\")(load-file \"%s\")(warn \"File %s does not exist\"))" % (file_path, file_path, file_path)
