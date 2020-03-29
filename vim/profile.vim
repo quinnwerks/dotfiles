@@ -15,9 +15,7 @@ endif
 
 call plug#begin('~/.vim/plugged')
     " Colorscheme
-    Plug 'tyrannicaltoucan/vim-deep-space'
-    
-    " Statusline 
+    Plug 'dracula/vim'
     Plug 'itchyny/lightline.vim'
     
     " Fuzzy file finder
@@ -26,14 +24,7 @@ call plug#begin('~/.vim/plugged')
     
     " Git integration
     Plug 'tpope/vim-fugitive'
-    
-    " Pretty git statuses on the side
     Plug 'airblade/vim-gitgutter'
-
-    " Linting for various languages
-    Plug 'dense-analysis/ale'
-    " Rust
-    Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
@@ -48,7 +39,7 @@ set noshowmode
 
 " Basic lightline json config
 let g:lightline = {
-                  \    'colorscheme': 'one',
+                  \    'colorscheme': 'solarized',
                   \    'active': {
                   \        'left': [ [ 'mode', 'paste' ],
                   \            [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -61,11 +52,7 @@ let g:lightline = {
 """"""""""""""""""""
 " LINTING SETUP
 """"""""""""""""""""
-" Show errors in list form
-let g:ale_open_list=1
-" Rust 
-let g:ale_linters={'rust': ['rls']}
-let g:ale_fixers={'rust':['rustfmt']}
+"TODO
 
 """"""""""""""""""""
 " COLORS
@@ -76,12 +63,14 @@ syntax enable
 " Set colorscheme to dark
 set background=dark
 
-" Don't user term colors
-set termguicolors 
+" Assume terminal can support 256 colors.
+" This isn't the 90's.
+" Note: gnome terminal is really bad at dealing with this.
+set t_Co=256
 
 " Attempt to set colorscheme
 try
-    colorscheme deep-space
+    colorscheme dracula 
 catch
 endtry
 
@@ -128,22 +117,28 @@ set showcmd
 """"""""""""""""""""
 " VIM UI NAVIGATION
 """"""""""""""""""""
+" Set leader key
+let mapleader = "\<Space>"
+" Faster quit, write, search, replace, line select`
+noremap <leader>q :q<CR>
+noremap <leader>w :w<CR>
+noremap <leader>s /
+noremap <leader>v V
+noremap <leader>r :%s/
+
+" Navigation between vim windows
+nnoremap <leader>h <C-w>h
+nnoremap <leader>j <C-w>j
+nnoremap <leader>k <C-w>k
+nnoremap <leader>l <C-w>l
+
 " Navigation between vim tabs
 nnoremap th :tabprev<CR>
 nnoremap tl :tabnext<CR>
 nnoremap tn :tabnew<CR>
 nnoremap tc :tabclose<CR>
 
-" Navigation between vim windows
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
 "move vertically by visual line, not the 'real' line
 nnoremap j gj
 nnoremap k gk
-
-"allow mouse to be used for window resizing
-set mouse=n
 
