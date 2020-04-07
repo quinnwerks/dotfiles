@@ -52,16 +52,25 @@ myPP = dynamicLogWithPP xmobarPP {
                 }
 
 -- Key Bindings --
----- Set up *all* keybindings for xmonad
+---- Set up *all* keybindings for xmonad.
+---- Descriptions from xmonad man page.
 myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
         [
          ---- Focus Window
              -- Move focus to the next window.
              ((mod, xK_j), windows Win.focusDown),
+             ((mod, xK_Tab), windows Win.focusDown),
 
              -- Move focus to the previous window.
              ((mod, xK_k), windows Win.focusUp),
+             ((mod .|. shiftMask, xK_Tab), windows Win.focusDown),
             
+             -- Swap the focused window with the next window.
+             ((mod .|. shiftMask, xK_j), windows Win.swapDown),
+             
+             -- Swap the focused window with the previous window.
+             ((mod .|. shiftMask, xK_k), windows Win.swapUp),
+             
              -- Close focused window.
              ((mod.|. shiftMask, xK_c), kill),
              
