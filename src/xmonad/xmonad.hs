@@ -8,30 +8,36 @@ import XMonad.Layout.Spacing
 import XMonad.Hooks.EwmhDesktops
 import System.IO
 
---main::IO()
---main = xmonad =<< statusBar myBar myPP (ewmh $ myConfig)
-
-main = do
-    xmproc <- spawnPipe "xmobar"
-    xmonad $ myConfig
-
-myConfig = defaultConfig { layoutHook = myLayout,
-                           manageHook = myManage,
-                           handleEventHook = myEvent
-                         } `additionalKeys` myKeys
-
-
-myManage = manageDocks <+> manageHook defaultConfig
-myEvent = handleEventHook defaultConfig <+> docksEventHook
-myLayout = avoidStruts  $  layoutHook defaultConfig
+-- Main --
+---- Put it all together
+main = xmonad =<< myBar myConfig
+myConfig = defaultConfig {
+                -- Set mod key to windows key
+                modMask = myModMask,
+                -- Hooks
+                manageHook = myManageHook,
+                layoutHook = myLayoutHook
+            } `additionalKeys` myKeys
 
 
-myBar = "xmobar"
+-- Manage Hook --
+---- Execute arbrary instructions upon creation of a new window.
+myManageHook = manageDocks <+> manageHook defaultConfig
+
+-- Layout Hook --
+---- Change the look of layouts.
+myLayoutHook = avoidStruts  $  layoutHook defaultConfig
+myModMask = mod4Mask
+
+-- Status Bar --
+---- Set the status bar and partially control it's layout.
+myBar = xmobar
 myPP = dynamicLogWithPP xmobarPP { 
-                    ppCurrent = xmobarColor "blue" ""
-                    ,ppTitle = xmobarColor "green" "" . shorten 80
+                    ppCurrent = xmobarColor "blue" "",
+                    ppTitle = xmobarColor "green" "" . shorten 80
                 }
 
-
+-- Custom Keys --
+---- Empty for now.
 myKeys = []
 
