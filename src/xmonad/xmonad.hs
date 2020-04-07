@@ -1,24 +1,29 @@
+-- System Imports --
+import System.IO
+import System.Exit
+-- Xmonad Imports --
 import XMonad
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
-import XMonad.Layout.Spacing
-import XMonad.Hooks.EwmhDesktops
-import System.IO
-
+-- Data Structure Imports --
+import qualified Data.Map        as DataMap
+import qualified XMonad.StackSet as Win
 -- Main --
 ---- Put it all together
 main = xmonad =<< myBar myConfig
 myConfig = defaultConfig {
+                workspaces = myWorkspaces,
                 borderWidth = myBorderWidth,
                 -- Set mod key to windows key
                 modMask = myModMask,
                 -- Hooks
                 manageHook = myManageHook,
-                layoutHook = myLayoutHook
-            } `additionalKeys` myKeys
+                layoutHook = myLayoutHook,
+                keys = myKeys
+            }
 
 
 -- Manage Hook --
@@ -34,6 +39,10 @@ myModMask = mod4Mask
 ---- Width of window border in pixels.
 myBorderWidth = 1 
 
+-- Workspaces --
+---- Configure workspaces.
+myWorkspaces = ["1:term","2:web", "3:code", "4:ssh"]
+
 -- Status Bar --
 ---- Set the status bar and partially control it's layout.
 myBar = xmobar
@@ -42,7 +51,47 @@ myPP = dynamicLogWithPP xmobarPP {
                     ppTitle = xmobarColor "green" "" . shorten 80
                 }
 
--- Custom Keys --
----- Empty for now.
-myKeys = []
+-- Key Bindings --
+---- Set up *all* keybindings for xmonad
+myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
+        [
+         ---- Focus Window
+             -- Move focus to the next window.
+             ((mod, xK_j), windows Win.focusDown),
+
+             -- Move focus to the previous window.
+             ((mod, xK_k), windows Win.focusUp),
+            
+             -- Close focused window.
+             ((mod.|. shiftMask, xK_c), kill),
+             
+             -- Rotate through the available layout algorithms.
+             ((mod, xK_space), sendMessage NextLayout),
+         
+         ---- Master Window
+             -- Swap the focused window and the master window.
+             ((mod, xK_Return), windows Win.swapMaster),
+             
+             -- Move focus to the master window.
+             ((mod, xK_m), windows Win.focusMaster),
+
+             -- Shrink the master area.
+             ((mod, xK_h), sendMessage Shrink),
+
+             -- Expand the master area.
+             ((mod, xK_l), sendMessage Expand),
+       
+         ---- Making New Windows 
+             -- Spawn a term.
+             ((mod .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf),
+             
+             -- Spawn Rofi.
+             ((mod, xK_p), spawn "rofi -show run"),
+
+         ---- Meta         
+             -- Quit xmonad.
+             ((mod .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
+             
+             -- Restart xmonad.
+             ((mod, xK_q), restart "xmonad" True)]
 
