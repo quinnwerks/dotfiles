@@ -3,28 +3,42 @@ import System.IO
 import System.Exit
 -- Xmonad Imports --
 import XMonad
-import XMonad
+import XMonad.Layout.Fullscreen
+import XMonad.Layout.NoBorders
+import XMonad.Layout.Gaps
+import XMonad.Layout.Spacing
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
+import XMonad.Util.SpawnOnce
 import XMonad.Util.EZConfig(additionalKeys)
 -- Data Structure Imports --
 import qualified Data.Map        as DataMap
 import qualified XMonad.StackSet as Win
+
 -- Main --
 ---- Put it all together
-main = xmonad =<< myBar myConfig
+main = do
+    xmonad =<< myBar myConfig
 myConfig = defaultConfig {
+                -- Workspaces --
                 workspaces = myWorkspaces,
+                -- Aesthetics --
                 borderWidth = myBorderWidth,
-                -- Set mod key to windows key
-                modMask = myModMask,
-                -- Hooks
+                -- Hooks --
+                startupHook = myStartupHook,
                 manageHook = myManageHook,
                 layoutHook = myLayoutHook,
+                -- Key Bindings --
+                modMask = myModMask,
                 keys = myKeys
             }
 
+-- Startup Hook --
+---- Execute instructions on start or restart of Xmonad.
+myStartupHook = do
+    -- Set desktop background (don't want to rely on an xessionrc).
+    spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/firewatch.jpg &"
 
 -- Manage Hook --
 ---- Execute arbrary instructions upon creation of a new window.
@@ -32,7 +46,10 @@ myManageHook = manageDocks <+> manageHook defaultConfig
 
 -- Layout Hook --
 ---- Change the look of layouts.
-myLayoutHook = avoidStruts  $  layoutHook defaultConfig
+myLayoutHook =  spacingRaw True (Border 0 10 10 10) True (Border 10 10 10 10) True $ avoidStruts  (
+                Tall 1 (3/100) (1/2)
+                ) ||| noBorders (fullscreenFull Full)
+
 myModMask = mod4Mask
 
 -- Border Width --
