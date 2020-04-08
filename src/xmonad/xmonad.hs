@@ -47,8 +47,8 @@ myManageHook = manageDocks <+> manageHook defaultConfig
 -- Layout Hook --
 ---- Change the look of layouts.
 myLayoutHook =  spacingRaw True (Border 0 10 10 10) True (Border 10 10 10 10) True $ avoidStruts  (
-                Tall 1 (3/100) (1/2)
-                ) ||| noBorders (fullscreenFull Full)
+                Tall 1 (3/100) (1/2) 
+                ) ||| noBorders (fullscreenFull Full) 
 
 myModMask = mod4Mask
 
@@ -106,6 +106,10 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
 
              -- Expand the master area.
              ((mod, xK_l), sendMessage Expand),
+         
+         ---- Floating Windows
+              -- Push window back into tiling.
+              ((mod, xK_t), withFocused $ windows . Win.sink),
        
          ---- Making New Windows 
              -- Spawn a term.
@@ -120,4 +124,21 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
              
              -- Restart xmonad.
              ((mod, xK_q), restart "xmonad" True)]
+             
+            ++
+        
+        ---- Workspaces
+        -- Switch workspaces.
+        [((m .|. mod, k), windows $ f i)
+            | (i,k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
+            , (f,m) <- [(Win.greedyView, 0), (Win.shift, shiftMask)]]
+            
+            ++
+        ---- Screens
+        -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
+        -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
+        -- TODO: questoin? when will I use this?
+        [((m .|. mod, key), screenWorkspace sc >>= flip whenJust (windows . f))
+            | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
+            , (f, m) <- [(Win.view, 0), (Win.shift, shiftMask)]]
 
