@@ -1,3 +1,8 @@
+---- XMonad Config ----
+-- @author Quinn Smith
+-- @date April 7th, 2020
+-- @file Configuration for XMonad window manager
+
 -- System Imports --
 import System.IO
 import System.Exit
@@ -90,9 +95,6 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
              
              -- Close focused window.
              ((mod.|. shiftMask, xK_c), kill),
-             
-             -- Rotate through the available layout algorithms.
-             ((mod, xK_space), sendMessage NextLayout),
          
          ---- Master Window
              -- Swap the focused window and the master window.
@@ -106,17 +108,31 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
 
              -- Expand the master area.
              ((mod, xK_l), sendMessage Expand),
-         
+             
+             -- Increment the number of windows in the master area.
+             ((mod, xK_comma), sendMessage (IncMasterN 1)),
+
+             -- Decrement the number of windows in the master area.
+             ((mod, xK_period), sendMessage (IncMasterN (-1))),
+
          ---- Floating Windows
               -- Push window back into tiling.
               ((mod, xK_t), withFocused $ windows . Win.sink),
-       
+
          ---- Making New Windows 
              -- Spawn a term.
              ((mod .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf),
              
              -- Spawn Rofi.
+             -- TODO: make this generic
              ((mod, xK_p), spawn "rofi -show run"),
+           
+         ---- Layouts
+             --  Reset the layouts on the current workspace to default.
+             ((mod .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf),    
+             
+             -- Rotate through the available layout algorithms.
+             ((mod, xK_space), sendMessage NextLayout),
 
          ---- Meta         
              -- Quit xmonad.
@@ -124,6 +140,10 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
              
              -- Restart xmonad.
              ((mod, xK_q), restart "xmonad" True)]
+            
+             -- Lock the screen.
+             -- Lock the screen using command specified by myScreensaver.
+             -- TODO: ((modMask .|. controlMask, xK_l), spawn myScreensaver)
              
             ++
         
