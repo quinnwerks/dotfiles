@@ -20,6 +20,7 @@ import XMonad.Util.EZConfig(additionalKeys)
 -- Data Structure Imports --
 import qualified Data.Map        as DataMap
 import qualified XMonad.StackSet as Win
+import Graphics.X11.ExtraTypes.XF86  
 
 -- Main --
 ---- Put it all together
@@ -144,6 +145,33 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
              
              -- Rotate through the available layout algorithms.
              ((mod, xK_space), sendMessage NextLayout),
+         
+         ---- Media     
+             -- Mute volume.
+             ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle"),
+
+             -- Decrease volume.
+             ((0, xF86XK_AudioRaiseVolume), spawn "amixer set Master 5%+"),
+
+             -- Increase volume.
+             ((0, xF86XK_AudioLowerVolume),
+             spawn "amixer set Master 5%-"),
+
+             -- Audio previous.
+             ((0, 0x1008FF16), spawn ""),
+
+             -- Play/pause.
+             ((0, 0x1008FF14), spawn ""),
+
+             -- Audio next. 
+             ((0, 0x1008FF17), spawn ""),
+         
+         ---- Screen
+             -- Raise Brightness
+             ((0, xF86XK_MonBrightnessUp), spawn "lux -a 5%"),
+             
+             -- Lower Brightness
+             ((0, xF86XK_MonBrightnessDown), spawn "lux -s 5%"),
 
          ---- Meta         
              -- Quit xmonad.
