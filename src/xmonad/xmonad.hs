@@ -44,6 +44,7 @@ myConfig = defaultConfig {
 myStartupHook = do
     -- Set desktop background (don't want to rely on an xessionrc).
     spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/firewatch.jpg &"
+    spawnOnce "xscreensaver -no-splash &"
 
 -- Manage Hook --
 ---- Execute arbrary instructions upon creation of a new window.
@@ -51,6 +52,7 @@ myManageHook = manageDocks <+> manageHook defaultConfig
 
 -- Layout Hook --
 ---- Change the look of layouts.
+-- TODO more layouts
 myLayoutHook =  spacingRaw True (Border 0 10 10 10) True (Border 10 10 10 10) True $ avoidStruts  (
                 Tall 1 (3/100) (1/2) 
                 ) ||| noBorders (fullscreenFull Full) 
@@ -63,6 +65,7 @@ myBorderWidth = 1
 
 -- Workspaces --
 ---- Configure workspaces.
+-- TODO more workspaces
 myWorkspaces = ["1:term","2:web", "3:code", "4:ssh"]
 
 -- Status Bar --
@@ -72,6 +75,14 @@ myPP = dynamicLogWithPP xmobarPP {
                     ppCurrent = xmobarColor "blue" "",
                     ppTitle = xmobarColor "green" "" . shorten 80
                 }
+
+-- Screen Saver --
+---- Set up command to lock the screen 
+myScreenSaver = "xscreensaver-command -lock" 
+
+-- Program Launcher --
+---- Set up command to run window launcher
+myLauncher = "rofi -show run"
 
 -- Key Bindings --
 ---- Set up *all* keybindings for xmonad.
@@ -125,7 +136,7 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
              
              -- Spawn Rofi.
              -- TODO: make this generic
-             ((mod, xK_p), spawn "rofi -show run"),
+             ((mod, xK_p), spawn myLauncher),
            
          ---- Layouts
              --  Reset the layouts on the current workspace to default.
@@ -138,12 +149,13 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
              -- Quit xmonad.
              ((mod .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
              
+             -- Lock the screen.
+             -- Lock the screen using command specified by myScreensaver.
+             ((mod .|. shiftMask, xK_l), spawn myScreenSaver),
+             
              -- Restart xmonad.
              ((mod, xK_q), restart "xmonad" True)]
             
-             -- Lock the screen.
-             -- Lock the screen using command specified by myScreensaver.
-             -- TODO: ((modMask .|. controlMask, xK_l), spawn myScreensaver)
              
             ++
         
