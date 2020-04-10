@@ -54,7 +54,6 @@ myManageHook = manageDocks <+> manageHook defaultConfig
 
 -- Layout Hook --
 ---- Change the look of layouts.
--- TODO more layouts
 myLayoutHook =  spacingRaw True (Border 0 10 10 10) True (Border 10 10 10 10) True $ avoidStruts  (
                 Tall 1 (3/100) (1/2)  |||
                 Mirror (Tall 1 (3/100) (3/5)) |||
@@ -69,8 +68,7 @@ myBorderWidth = 1
 
 -- Workspaces --
 ---- Configure workspaces.
--- TODO more workspaces
-myWorkspaces = ["1:term","2:web", "3:code", "4:ssh"]
+myWorkspaces = ["1:term","2:web", "3:code", "4:ssh"] ++ map show [5..9]
 
 -- Status Bar --
 ---- Set the status bar and partially control it's layout.
