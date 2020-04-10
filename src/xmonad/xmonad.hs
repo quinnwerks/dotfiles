@@ -41,7 +41,6 @@ myConfig = defaultConfig {
                 keys = myKeys
             }
 
-
 -- Startup Hook --
 ---- Execute instructions on start or restart of Xmonad.
 myStartupHook = do
