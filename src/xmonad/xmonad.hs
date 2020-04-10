@@ -17,7 +17,6 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.SpawnOnce
-import XMonad.Util.EZConfig(additionalKeys)
 -- Data Structure Imports --
 import qualified Data.Map        as DataMap
 import qualified XMonad.StackSet as Win
@@ -28,6 +27,7 @@ import Graphics.X11.ExtraTypes.XF86
 main = do
     xmonad =<< myBar myConfig
 myConfig = defaultConfig {
+                terminal = myTerminal,
                 -- Workspaces --
                 workspaces = myWorkspaces,
                 -- Aesthetics --
@@ -46,7 +46,6 @@ myConfig = defaultConfig {
 myStartupHook = do
     -- Set desktop background (don't want to rely on an xessionrc).
     spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/firewatch.jpg &"
-    --spawnOnce "xscreensaver -no-splash &"
 
 -- Manage Hook --
 ---- Execute arbrary instructions upon creation of a new window.
@@ -56,19 +55,20 @@ myManageHook = manageDocks <+> manageHook defaultConfig
 ---- Change the look of layouts.
 myLayoutHook =  spacingRaw True (Border 0 10 10 10) True (Border 10 10 10 10) True $ avoidStruts  (
                 Tall 1 (3/100) (1/2)  |||
-                Mirror (Tall 1 (3/100) (3/5)) |||
-                spiral (6/7)
+                Mirror (Tall 1 (3/100) (3/5))
                 ) ||| noBorders (fullscreenFull Full) 
+
+myTerminal = "st"
 
 myModMask = mod4Mask
 
 -- Border Width --
 ---- Width of window border in pixels.
-myBorderWidth = 1 
+myBorderWidth = 2 
 
 -- Workspaces --
 ---- Configure workspaces.
-myWorkspaces = ["1:term","2:web", "3:code", "4:ssh"] ++ map show [5..9]
+myWorkspaces = map show [1..9]
 
 -- Status Bar --
 ---- Set the status bar and partially control it's layout.
