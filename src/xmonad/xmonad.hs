@@ -8,6 +8,7 @@ import System.IO
 import System.Exit
 -- Xmonad Imports --
 import XMonad
+import XMonad.Util.EZConfig
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
@@ -24,8 +25,7 @@ import Graphics.X11.ExtraTypes.XF86
 
 -- Main --
 ---- Put it all together
-main = do
-    xmonad =<< myBar myConfig
+main = xmonad =<< statusBar myBar myPP toggleStrutsKey  myConfig
 myConfig = defaultConfig {
                 terminal = myTerminal,
                 -- Workspaces --
@@ -40,6 +40,7 @@ myConfig = defaultConfig {
                 modMask = myModMask,
                 keys = myKeys
             }
+
 
 -- Startup Hook --
 ---- Execute instructions on start or restart of Xmonad.
@@ -72,8 +73,8 @@ myWorkspaces = map show [1..9]
 
 -- Status Bar --
 ---- Set the status bar and partially control it's layout.
-myBar = xmobar
-myPP = dynamicLogWithPP xmobarPP { 
+myBar = "xmobar $HOME/dotfiles/src/xmonad/xmobar.hs" 
+myPP = xmobarPP { 
                     ppCurrent = xmobarColor "blue" "",
                     ppTitle = xmobarColor "green" "" . shorten 80
                 }
@@ -203,3 +204,5 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
             | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
             , (f, m) <- [(Win.view, 0), (Win.shift, shiftMask)]]
 
+-- This is never used --
+toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_o)
