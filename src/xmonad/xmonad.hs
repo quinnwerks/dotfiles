@@ -45,7 +45,7 @@ myConfig = defaultConfig {
 myStartupHook = do
     -- Set desktop background (don't want to rely on an xessionrc).
     spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/firewatch.jpg &"
-    spawnOnce "xscreensaver -no-splash &"
+    --spawnOnce "xscreensaver -no-splash &"
 
 -- Manage Hook --
 ---- Execute arbrary instructions upon creation of a new window.
@@ -79,7 +79,7 @@ myPP = dynamicLogWithPP xmobarPP {
 
 -- Screen Saver --
 ---- Set up command to lock the screen 
-myScreenSaver = "xscreensaver-command -lock" 
+myScreenSaver = "sh $HOME/.scripts/lock.sh $HOME/.xmonad/wallpapers/lock.png" 
 
 -- Program Launcher --
 ---- Set up command to run window launcher
