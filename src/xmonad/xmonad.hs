@@ -46,7 +46,7 @@ myConfig = defaultConfig {
 ---- Execute instructions on start or restart of Xmonad.
 myStartupHook = do
     -- Set desktop background (don't want to rely on an xessionrc).
-    spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/firewatch.jpg &"
+    spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/grey.jpg &"
 
 -- Manage Hook --
 ---- Execute arbrary instructions upon creation of a new window.
@@ -54,7 +54,7 @@ myManageHook = manageDocks <+> manageHook defaultConfig
 
 -- Layout Hook --
 ---- Change the look of layouts.
-myLayoutHook =  spacingRaw True (Border 0 10 10 10) True (Border 10 10 10 10) True $ avoidStruts  (
+myLayoutHook =  spacingRaw True (Border 0 5 5 5) True (Border 5 5 5 5) True $ avoidStruts  (
                 Tall 1 (3/100) (1/2)  |||
                 Mirror (Tall 1 (3/100) (3/5))
                 ) ||| noBorders (fullscreenFull Full) 
