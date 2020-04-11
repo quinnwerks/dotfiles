@@ -72,10 +72,10 @@ myWorkspaces = map show [1..9]
 
 -- Status Bar --
 ---- Set the status bar and partially control it's layout.
-myBar = "xmobar $HOME/dotfiles/src/xmonad/xmobar.hs" 
+myBar = "xmobar $HOME/.xmobar/xmobar.hs" 
 myPP = xmobarPP { 
-                    ppCurrent = xmobarColor "blue" "",
-                    ppTitle = xmobarColor "green" "" . shorten 80
+                    ppCurrent = xmobarColor "red" "",
+                    ppTitle = xmobarColor "green" "" . shorten 50
                 }
 
 -- Screen Saver --
