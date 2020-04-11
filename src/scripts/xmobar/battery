@@ -1,20 +1,22 @@
 #!/bin/bash
 
+BAT_SYM='\uf241'
+PLUG_SYM='\uf1e6'
+
 ECHO_STR=""
 if [ -e /sys/class/power_supply/BAT0 ]; then
     BATTERY_STATS=$(acpi);
-    BAT_STATUS=$(echo $BATTERY_STATS | awk '{print $3}' | tr -d ',') 
+    CHARGE_STATUS=$(echo $BATTERY_STATS | awk '{print $3}' | tr -d ',') 
     BAT_PERCENTAGE=$(echo $BATTERY_STATS | grep -o "[[:digit:]]*%");
-
-    if [ $BAT_STATUS = "Discharging" ]; then
-        ECHO_STR="$BAT_PERCENTAGE"
+    if [ $CHARGE_STATUS = "Discharging" ]; then
+        ECHO_STR="$BAT_SYM $BAT_PERCENTAGE"
     else
-        ECHO_STR="$BAT_PERCENTAGE"
+        ECHO_STR="$PLUG_SYM $BAT_PERCENTAGE"
     fi
 else
-    ECHO_STR="N/A"
+    ECHO_STR="$PLUG_SYM"
 fi
 
-echo $ECHO_STR
+echo -e $ECHO_STR
 
     

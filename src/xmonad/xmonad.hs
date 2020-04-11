@@ -32,6 +32,7 @@ myConfig = defaultConfig {
                 workspaces = myWorkspaces,
                 -- Aesthetics --
                 borderWidth = myBorderWidth,
+                focusedBorderColor = myBorderColor,
                 -- Hooks --
                 startupHook = myStartupHook,
                 manageHook = myManageHook,
@@ -65,6 +66,7 @@ myModMask = mod4Mask
 -- Border Width --
 ---- Width of window border in pixels.
 myBorderWidth = 2 
+myBorderColor = "#dc322f"
 
 -- Workspaces --
 ---- Configure workspaces.
@@ -74,8 +76,10 @@ myWorkspaces = map show [1..9]
 ---- Set the status bar and partially control it's layout.
 myBar = "xmobar $HOME/.xmobar/xmobar.hs" 
 myPP = xmobarPP { 
-                    ppCurrent = xmobarColor "red" "",
-                    ppTitle = xmobarColor "green" "" . shorten 50
+                    ppCurrent = xmobarColor "#dc322f" "",
+                    ppHidden = xmobarColor "#8a8a8a" "",
+                    ppTitle = xmobarColor "#595959" "" . shorten 80,
+                    ppLayout = xmobarColor "#8a8a8a" ""
                 }
 
 -- Screen Saver --
