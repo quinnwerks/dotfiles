@@ -1,4 +1,8 @@
 #!/bin/bash
+# @file Query wifi info. Will be extended to also provide wired network info.
+# @author Quinn Smith
+# @date April 11th, 2020
+# @dependencies awk, curl, font-awesome icon support
 
 WEATHER_STR=$(curl "wttr.in/?format=%t_%C_%w")
 

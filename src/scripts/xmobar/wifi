@@ -1,4 +1,8 @@
 #!/bin/bash
+# @file Query wifi info. Will be extended to also provide wired network info.
+# @author Quinn Smith
+# @date April 11th, 2020
+# @dependencies awk, grep, iwconfig, font-awesome icon support
 
 if [ -e /proc/net/wireless ]; then
     WIRELESS_DEVICE="wlp2s0"

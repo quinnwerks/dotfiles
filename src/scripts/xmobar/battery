@@ -1,4 +1,8 @@
 #!/bin/bash
+# @file Query battery/power info.
+# @author Quinn Smith
+# @date April 11th, 2020
+# @dependencies awk, grep, font-awesome icon support 
 
 BAT_SYM='\uf241'
 PLUG_SYM='\uf1e6'

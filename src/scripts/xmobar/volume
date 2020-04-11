@@ -1,4 +1,8 @@
-#! /bin/bash
+#!/bin/bash
+# @file Query sound info.
+# @author Quinn Smith
+# @date April 11th, 2020
+# @dependencies alsamixer, awk, font-awesome icon support 
 
 SOUND_ON=$(amixer sget Master | awk -F "[][]" '/dB/ {print $6}')
 VOLUME=$(expr $(amixer sget Master | awk -F "[][]" '/dB/ {print $2+0}'))

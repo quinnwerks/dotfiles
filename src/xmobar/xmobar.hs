@@ -1,4 +1,9 @@
-Config {font = "xft:Sans Serif-10:normal,FontAwesome: size=11"  
+-- @file XMobar Configuration File
+-- @author Quinn Smith
+-- @date April 11th, 2020
+-- @dependencies IBM Plex Mono Font, FontAwesome
+
+Config {font = "xft:IBM Plex Mono-9:normal,FontAwesome: size=11"  
         bgColor = "black",
         fgColor = "grey",
         position = TopW L 100, 
@@ -12,5 +17,5 @@ Config {font = "xft:Sans Serif-10:normal,FontAwesome: size=11"
                     Run Com "bash" ["-c", "~/.scripts/xmobar/time"]    "time" 10,
                     Run Com "bash" ["-c", "~/.scripts/xmobar/weather"] "weather" 600
                    ],
-        template = "%StdinReader% }{ %bat%   %vol%   %wifi%    %weather%    %time%  "
+        template = "%StdinReader% }{ %bat% %vol% %wifi%  %weather%  %time% "
        }
