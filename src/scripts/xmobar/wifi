@@ -1,5 +1,18 @@
 #!/bin/bash
 
-WIFI_INFO="hello"
+if [ -e /proc/net/wireless ]; then
+    WIRELESS_DEVICE="wlp2s0"
+    
+    # Wireless strength is given as a fraction turn it into a number from 0-100 
+    WIRELESS_STRENGTH_FRACTION=$( iwconfig $WIRELESS_DEVICE | grep -o "Link Quality=[[:digit:]]*/[[:digit:]]*" | awk -F= '{print $2}');
+    WIRELESS_NUMERATOR=$(echo $WIRELESS_STRENGTH_FRACTION | awk -F/ '{print $1}');
+    WIRELESS_DENOMINATOR=$(echo $WIRELESS_STRENGTH_FRACTION | awk -F/ '{print $2}');
+    WIRELESS_STRENGTH=$(awk "BEGIN{ print (int(($WIRELESS_NUMERATOR/$WIRELESS_DENOMINATOR)*100));}");
 
-echo "hello"
+    WIRELESS_SYM='\uf1eb' 
+
+    WIRELESS_NAME=$(iwconfig $WIRELESS_DEVICE | grep ESSID | awk -F: '{print $2}' | grep -o "\"\S*\""); 
+    echo -e "$WIRELESS_SYM $WIRELESS_NAME $WIRELESS_STRENGTH%"
+else
+    echo -e "WIRED"
+fi

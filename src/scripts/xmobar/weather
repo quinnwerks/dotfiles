@@ -1,0 +1,11 @@
+#!/bin/bash
+
+WEATHER_STR=$(curl "wttr.in/?format=%t_%C_%w")
+
+WEATHER_SYM='\uf2c9'
+
+TEMP=$(echo $WEATHER_STR | awk -F_ '{print $1}');
+CONDITIONS=$(echo $WEATHER_STR | awk -F_ '{print $2}');
+WIND=$(echo $WEATHER_STR | awk -F_ '{print $3}');
+
+echo -e "$WEATHER_SYM $TEMP $CONDITIONS"

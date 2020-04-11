@@ -1,0 +1,4 @@
+#!/bin/bash
+DATE_SYM='\uf073'
+DATE_TIME=$( date +"%a %Y-%m-%d %H:%M %Z")
+echo -e "$DATE_SYM $DATE_TIME"
