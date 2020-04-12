@@ -1,6 +1,6 @@
-# Zshrc 
-# Author: Quinn Smith
-# Date: 2020-01-11
+# @file Zsh Configuration
+# @author Quinn Smith
+# @date January 11th, 2020
 
 #
 # Basic ZSH Setup
@@ -23,7 +23,11 @@ setopt CORRECT
 setopt CORRECT_ALL
 
 # Enable better tab completion
-#autoload compinit && compinit
+autoload -U compinit 
+zstyle ":completion:*" menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)
 
 # 
 # Aliases
