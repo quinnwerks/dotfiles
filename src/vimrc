@@ -15,7 +15,7 @@ endif
 
 call plug#begin('~/.vim/plugged')
     " Colorscheme
-    Plug 'dracula/vim'
+    Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'itchyny/lightline.vim'
     
     " Fuzzy file finder
@@ -39,7 +39,7 @@ set noshowmode
 
 " Basic lightline json config
 let g:lightline = {
-                  \    'colorscheme': 'solarized',
+                  \    'colorscheme': 'dracula',
                   \    'active': {
                   \        'left': [ [ 'mode', 'paste' ],
                   \            [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -65,11 +65,12 @@ set background=dark
 
 " Assume terminal can support 256 colors.
 " This isn't the 90's.
-" Note: gnome terminal is really bad at dealing with this.
 set t_Co=256
 
 " Attempt to set colorscheme
+" Tmux requires escape codes to be changed to enable true color support
 try
+    set termguicolors
     colorscheme dracula 
 catch
 endtry

@@ -4,8 +4,8 @@
 -- @dependencies IBM Plex Mono Font, FontAwesome
 
 Config {font = "xft:IBM Plex Mono-9:normal,FontAwesome: size=11"  
-        bgColor = "black",
-        fgColor = "grey",
+        bgColor = "#282a36",
+        fgColor = "#6272a4",
         position = TopW L 100, 
         sepChar = "%",
         alignSep = "}{",

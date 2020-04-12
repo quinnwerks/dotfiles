@@ -39,7 +39,10 @@ myConfig = defaultConfig {
                 layoutHook = myLayoutHook,
                 -- Key Bindings --
                 modMask = myModMask,
-                keys = myKeys
+                keys = myKeys,
+                -- Mouse --
+                focusFollowsMouse = myFocusFollowsMouse,
+                mouseBindings = myMouseBindings
             }
 
 -- Startup Hook --
@@ -65,8 +68,8 @@ myModMask = mod4Mask
 
 -- Border Width --
 ---- Width of window border in pixels.
-myBorderWidth = 2 
-myBorderColor = "#dc322f"
+myBorderWidth = 3 
+myBorderColor = "#ff5555"
 
 -- Workspaces --
 ---- Configure workspaces.
@@ -76,8 +79,8 @@ myWorkspaces = map show [1..9]
 ---- Set the status bar and partially control it's layout.
 myBar = "xmobar $HOME/.xmobar/xmobar.hs" 
 myPP = xmobarPP { 
-                    ppCurrent = xmobarColor "#dc322f" "",
-                    ppHidden = xmobarColor "#8a8a8a" "",
+                    ppCurrent = xmobarColor "#f1fa8c" "",
+                    ppHidden = xmobarColor "#6272a4" "",
                     ppTitle = xmobarColor "#595959" "" . shorten 80,
                     ppLayout = xmobarColor "#8a8a8a" ""
                 }
@@ -209,3 +212,27 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
 
 -- This is never used --
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_o)
+
+-- Mouse bindings
+--
+-- Focus rules
+-- True if your focus should follow your mouse cursor.
+myFocusFollowsMouse :: Bool
+myFocusFollowsMouse = True
+
+myMouseBindings (XConfig {XMonad.modMask = mod}) = DataMap.fromList $
+  [
+    -- mod-button1, Set the window to floating mode and move by dragging
+    ((mod, button1),
+     (\w -> focus w >> mouseMoveWindow w))
+
+    -- mod-button2, Raise the window to the top of the stack
+    , ((mod, button2),
+       (\w -> focus w >> windows Win.swapMaster))
+
+    -- mod-button3, Set the window to floating mode and resize by dragging
+    , ((mod, button3),
+       (\w -> focus w >> mouseResizeWindow w))
+
+    -- you may also bind events to the mouse scroll wheel (button4 and button5)
+  ]
