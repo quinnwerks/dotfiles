@@ -1,0 +1,22 @@
+/*
+ * @file Rofi Configuration
+ * @author Quinn Smith
+ * @date April 12th, 2020
+ * @dependencies IBM Plex Mono Font
+ */
+
+configuration {
+	modi: "window,run,ssh";
+	width: 50;
+	lines: 15;
+	columns: 1;
+	font: "IBM Plex Mono 12";
+	
+    terminal: "st";
+               /*  BG     | FG     | SEPERATOR */
+    color-window:"#282a36, #6272a4,   #b1b4b3";
+               /*|  BG   |   FG   | BG-ALT |  BG-HL |  FG-HL */
+    color-normal:"#282a36, #f8f8f2, #282a36, #6272a4, #50fa7b";
+	color-active:"#282a36, #f8f8f2, #282a36, #007763, #b1b4b3"; 
+	color-urgent:"#282a36, #f8f8f2, #282a36, #77003d, #b1b4b3";
+}

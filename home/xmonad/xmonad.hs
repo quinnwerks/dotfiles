@@ -49,7 +49,7 @@ myConfig = defaultConfig {
 ---- Execute instructions on start or restart of Xmonad.
 myStartupHook = do
     -- Set desktop background (don't want to rely on an xessionrc).
-    spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/grey.jpg &"
+    spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/firewatch.png &"
 
 -- Manage Hook --
 ---- Execute arbrary instructions upon creation of a new window.
