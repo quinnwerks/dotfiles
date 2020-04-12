@@ -44,6 +44,8 @@ alias cls="clear"
 #
 # Configure the prompt
 #
+
+# TODO: make this better
 setopt PROMPT_SUBST 
 
 # Assume we have colors available. This isn't the 1990's.
