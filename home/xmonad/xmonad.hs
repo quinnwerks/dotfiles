@@ -71,7 +71,7 @@ myLayoutHook =  spacingRaw True (Border 0 5 5 5) True (Border 5 5 5 5) True $ av
 
 myTerminal = "st"
 
-myModMask = mod1Mask
+myModMask = mod4Mask
 
 -- Border Width --
 ---- Width of window border in pixels.
