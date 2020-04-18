@@ -8,14 +8,20 @@ import System.IO
 import System.Exit
 -- Xmonad Imports --
 import XMonad
-import XMonad.Util.EZConfig
+-- This is the xmonad config function that works 
+import XMonad.Config.Desktop
+import XMonad.Hooks.ManageDocks
+-- Layouts
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
 import XMonad.Layout.Gaps
 import XMonad.Layout.Spacing
+-- Allows bar to update in real time
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks
+-- Multi screen xmobar
+import XMonad.Layout.IndependentScreens
+-- Pipes and Spawn
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.SpawnOnce
 -- Data Structure Imports --
@@ -23,27 +29,28 @@ import qualified Data.Map        as DataMap
 import qualified XMonad.StackSet as Win
 import Graphics.X11.ExtraTypes.XF86  
 
--- Main --
----- Put it all together
-main = xmonad =<< statusBar myBar myPP toggleStrutsKey  myConfig
-myConfig = defaultConfig {
-                terminal = myTerminal,
-                -- Workspaces --
-                workspaces = myWorkspaces,
-                -- Aesthetics --
-                borderWidth = myBorderWidth,
-                focusedBorderColor = myBorderColor,
-                -- Hooks --
-                startupHook = myStartupHook,
-                manageHook = myManageHook,
-                layoutHook = myLayoutHook,
-                -- Key Bindings --
-                modMask = myModMask,
-                keys = myKeys,
-                -- Mouse --
-                focusFollowsMouse = myFocusFollowsMouse,
-                mouseBindings = myMouseBindings
-            }
+main = do
+    n <- countScreens
+    xmprocs <- mapM(\i -> spawnPipe $ "xmobar $HOME/.xmobar/xmobar.hs" ++ " -x " ++ show i) [0..n-1]
+    xmonad $ desktopConfig 
+        {  terminal = myTerminal,
+           -- Layout Hook
+           startupHook =  myStartupHook,
+           manageHook = manageDocks <+> manageHook defaultConfig,
+           layoutHook = avoidStruts  $  myLayoutHook,
+           logHook = dynamicLogWithPP $ myPP(xmprocs),
+           -- Aesthetics --
+           borderWidth = myBorderWidth,
+           focusedBorderColor = myBorderColor,
+           -- Workspaces --
+           workspaces = myWorkspaces,
+           -- Key Bindings --
+           modMask = myModMask,
+           keys = myKeys,
+           -- Mouse --
+           focusFollowsMouse = myFocusFollowsMouse,
+           mouseBindings = myMouseBindings
+        }
 
 -- Startup Hook --
 ---- Execute instructions on start or restart of Xmonad.
@@ -64,7 +71,7 @@ myLayoutHook =  spacingRaw True (Border 0 5 5 5) True (Border 5 5 5 5) True $ av
 
 myTerminal = "st"
 
-myModMask = mod4Mask
+myModMask = mod1Mask
 
 -- Border Width --
 ---- Width of window border in pixels.
@@ -75,15 +82,27 @@ myBorderColor = "#ff5555"
 ---- Configure workspaces.
 myWorkspaces = map show [1..9]
 
--- Status Bar --
----- Set the status bar and partially control it's layout.
-myBar = "xmobar $HOME/.xmobar/xmobar.hs" 
-myPP = xmobarPP { 
+
+-- Pretty Printer --
+---- Configure the pretty printer
+
+-- Set up StdInReader for each bar.
+myPPOutput :: [Handle] -> Int -> String -> IO()
+myPPOutput handles 0 x = hPutStrLn (handles !! 0) x
+myPPOutput handles n x = do 
+                         io <- hPutStrLn (handles !! n) x 
+                         io <- myPPOutput handles (n-1) x
+                         return io
+
+-- Get the pretty printer
+myPP :: [Handle] -> PP 
+myPP handles = xmobarPP 
+                {   ppOutput = \x -> myPPOutput handles (length handles - 1) x,
                     ppCurrent = xmobarColor "#f1fa8c" "",
                     ppHidden = xmobarColor "#6272a4" "",
                     ppTitle = xmobarColor "#595959" "" . shorten 80,
                     ppLayout = xmobarColor "#8a8a8a" ""
-                }
+                } 
 
 -- Screen Saver --
 ---- Set up command to lock the screen 
@@ -95,7 +114,7 @@ myLauncher = "rofi -show run"
 
 -- Key Bindings --
 ---- Set up *all* keybindings for xmonad.
----- Descriptions from xmonad man page.
+------ Descriptions from xmonad man page.
 myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
         [
          ---- Focus Window
@@ -185,6 +204,9 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
              -- Quit xmonad.
              ((mod .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
              
+             -- Toggle struts (bar visibility)
+             ((mod, xK_b), sendMessage ToggleStruts),
+             
              -- Lock the screen.
              -- Lock the screen using command specified by myScreensaver.
              ((mod .|. shiftMask, xK_l), spawn myScreenSaver),
@@ -210,11 +232,7 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
             | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
             , (f, m) <- [(Win.view, 0), (Win.shift, shiftMask)]]
 
--- This is never used --
-toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_o)
-
--- Mouse bindings
---
+-- Mouse bindings --
 -- Focus rules
 -- True if your focus should follow your mouse cursor.
 myFocusFollowsMouse :: Bool
