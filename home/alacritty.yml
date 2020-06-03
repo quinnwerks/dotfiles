@@ -1,0 +1,89 @@
+# Quinn's Alacritty configuration
+# Created on: 2020-06-02
+
+# Set envirnonment variables specific to term.
+env:
+    TERM: xterm-256color
+
+window:
+  # Window dimensions
+  dimensions:
+    columns: 100
+    lines: 85
+
+  # Window padding
+  padding:
+    x: 10
+    y: 2 
+  dynamic_padding: false
+
+  decorations: full
+  startup_mode: Windowed
+
+scrolling:
+  history: 10000
+  # Number of lines the viewport will move for every line scrolled when
+  # scrollback is enabled (history > 0).
+  multiplier: 3
+
+font:
+    size: 10.0
+    draw_bold_text_with_bright_colors: false
+    use_thin_strokes: true
+
+# Colors (Dracula)
+colors:
+  # Default colors
+  primary:
+    background: '#282a36'
+    foreground: '#f8f8f2'
+
+  # Normal colors
+  normal:
+    black:   '#000000'
+    red:     '#ff5555'
+    green:   '#50fa7b'
+    yellow:  '#f1fa8c'
+    blue:    '#caa9fa'
+    magenta: '#ff79c6'
+    cyan:    '#8be9fd'
+    white:   '#bfbfbf'
+
+  # Bright colors
+  bright:
+    black:   '#575b70'
+    red:     '#ff6e67'
+    green:   '#5af78e'
+    yellow:  '#f4f99d'
+    blue:    '#caa9fa'
+    magenta: '#ff92d0'
+    cyan:    '#9aedfe'
+    white:   '#e6e6e6'
+
+# Disable visual bell
+visual_bell:
+  duration: 0
+
+mouse:
+    hide_when_typing: true
+
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+  # When set to `true`, selected text will be copied to the primary clipboard.
+  save_to_clipboard: false
+
+cursor:
+  # Cursor style
+  #
+  # Values for 'style':
+  #   - ▇ Block
+  #   - _ Underline
+  #   - | Beam
+  style: Block
+
+  # If this is `true`, the cursor will be rendered as a hollow box when the
+  # window is not focused.
+  unfocused_hollow: true
+
+
+
