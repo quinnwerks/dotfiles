@@ -27,7 +27,7 @@ scrolling:
   multiplier: 3
 
 font:
-    size: 10.0
+    size: 7.5
     draw_bold_text_with_bright_colors: false
     use_thin_strokes: true
 
