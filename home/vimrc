@@ -115,6 +115,10 @@ set showmatch
 " Show last command entered
 set showcmd
 
+" Allow backspace over ssh sessions
+set backspace=indent,eol,start
+noremap! <C-?> <C-h>
+
 """"""""""""""""""""
 " VIM UI NAVIGATION
 """"""""""""""""""""

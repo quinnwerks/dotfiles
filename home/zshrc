@@ -69,22 +69,16 @@ function get_pwd() {
     echo "%~"
 }
 function get_user() {
+    echo "%n"
+}
+
+function get_host() {
     echo "%m"
 }
-function get_unicode_arrow() {
-    echo -e "\u2192"
+
+function get_prompt() {
+    echo "%{$fg[cyan]%}[$(get_time)] %{$fg[yellow]%}$(get_user)@$(get_host): %{$fg[green]%}$(get_pwd) %{$reset_color%}"
 }
 
-function get_first_line() {
-    echo "%{$fg[grey]%}╭─ %{$fg[cyan]%}[$(get_time)] %{$fg[yellow]%}$(get_user): %{$fg[green]%}$(get_pwd) %{$reset_color%}"
-}
-
-function get_second_line() {
-    echo "%{$fg[grey]%}╰─${vcs_info_msg_0_}%{$fg[grey]%}$(get_unicode_arrow)  %{$reset_color%}"
-}
-
-
-PROMPT='$(get_first_line)
-$(get_second_line)'
-
+PROMPT='$(get_prompt)'
 export TERM=xterm-256color
