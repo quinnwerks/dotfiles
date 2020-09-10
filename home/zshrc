@@ -30,7 +30,7 @@ compinit
 _comp_options+=(globdots)
 
 # 
-# Aliases
+# Aliases & Shortcuts
 #
 
 # Alias for a nice ls
@@ -40,6 +40,19 @@ alias ll="$LS -al"
 
 # Alias for clear
 alias cls="clear"
+
+# Stuff for remote work at school
+function ssh2ug() {
+    local UG_MACHINE_NUMBER="169"
+    if [[ -n $1 ]]; then
+        UG_MACHINE_NUMBER=$1
+    fi 
+    ssh smithqu1@ug$UG_MACHINE_NUMBER.eecg.utoronto.ca
+}
+
+function ssh2ecf() {
+    ssh smithqu1@remote.ecf.utoronto.ca
+}
 
 #
 # Configure the prompt
