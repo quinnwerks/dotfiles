@@ -29,6 +29,17 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
 
+#
+# Sourcing Other Files
+#
+function sourceZshFile() {
+    FILE=$1
+    if [ -f "$FILE" ]; then
+        source $FILE
+    fi
+}
+sourceZshFile ~/.zsh_paths;
+
 # 
 # Aliases & Shortcuts
 #
