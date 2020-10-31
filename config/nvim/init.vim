@@ -20,6 +20,7 @@ call plug#begin('~/.config/nvim/plugins')
     " Colorschemes that I like to switch between
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'arcticicestudio/nord-vim'
+    Plug 'ghifarit53/daycula-vim'
 
     " Airline for better statuses
     Plug 'vim-airline/vim-airline'
@@ -48,6 +49,22 @@ unlet plug_install
 """"""""""""""""""""""""""""""
 colorscheme nord
 set termguicolors
+
+""""""""""""""""""""""""""""""
+" Whitespace
+""""""""""""""""""""""""""""""
+" Set visual tab length
+set tabstop=4
+
+" Set tab to be defined as 4 spaces
+set softtabstop=4
+set shiftwidth=4
+
+" Set tabs=spaces
+set expandtab
+
+" Smarter tabbing
+set smarttab
 
 """"""""""""""""""""""""""""""
 " UI Tweaks
