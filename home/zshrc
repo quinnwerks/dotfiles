@@ -65,6 +65,9 @@ function ssh2ecf() {
     ssh smithqu1@remote.ecf.utoronto.ca
 }
 
+function ssh2clp() {
+    ssh quinn@capstoneclp.com
+}
 #
 # Configure the prompt
 #
