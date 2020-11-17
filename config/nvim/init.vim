@@ -83,7 +83,10 @@ set cursorline
 " Linter Setup
 """"""""""""""""""""""""""""""
 " Turn off C/C++ linters. They don't work very well.
-let g:ale_linters = { 'c': [], 'cpp': [] }
+let g:ale_linters = {
+\   'c': [], 'cpp': [],
+\   'python':['pylint']
+\}
 
 " Fix code as I write :-)
 let g:ale_fixers = {
