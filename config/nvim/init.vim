@@ -36,7 +36,7 @@ call plug#begin('~/.config/nvim/plugins')
     Plug 'scrooloose/nerdtree'
 
     " Linter
-    "    Plug 'w0rp/ale'
+    Plug 'w0rp/ale'
 call plug#end()
 
 if plug_install
@@ -77,10 +77,19 @@ set showmatch
 
 let NERDTreeShowHidden=1
 
+set cursorline
+
 """"""""""""""""""""""""""""""
 " Linter Setup
 """"""""""""""""""""""""""""""
-" TODO
+" Turn off C/C++ linters. They don't work very well.
+let g:ale_linters = { 'c': [], 'cpp': [] }
+
+" Fix code as I write :-)
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\}
+let g:ale_fix_on_save = 1
 
 """"""""""""""""""""""""""""""
 " Key (Re)Mapping
