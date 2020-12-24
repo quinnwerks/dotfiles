@@ -17,8 +17,6 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
 import XMonad.Layout.Gaps
 import XMonad.Layout.Spacing
--- Allows bar to update in real time
-import XMonad.Hooks.DynamicLog
 -- Multi screen xmobar
 import XMonad.Layout.IndependentScreens
 -- Pipes and Spawn
@@ -28,6 +26,10 @@ import XMonad.Util.SpawnOnce
 import qualified Data.Map        as DataMap
 import qualified XMonad.StackSet as Win
 import Graphics.X11.ExtraTypes.XF86  
+
+-- Status Bar
+-- Allows bar to update in real time
+import XMonad.Hooks.DynamicLog
 
 main = do
     n <- countScreens
@@ -121,36 +123,27 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
              -- Move focus to the next window.
              ((mod, xK_j), windows Win.focusDown),
              ((mod, xK_Tab), windows Win.focusDown),
-
              -- Move focus to the previous window.
              ((mod, xK_k), windows Win.focusUp),
              ((mod .|. shiftMask, xK_Tab), windows Win.focusDown),
-            
              -- Swap the focused window with the next window.
              ((mod .|. shiftMask, xK_j), windows Win.swapDown),
-             
              -- Swap the focused window with the previous window.
              ((mod .|. shiftMask, xK_k), windows Win.swapUp),
-             
              -- Close focused window.
              ((mod.|. shiftMask, xK_c), kill),
          
          ---- Master Window
              -- Swap the focused window and the master window.
              ((mod, xK_Return), windows Win.swapMaster),
-             
              -- Move focus to the master window.
              ((mod, xK_m), windows Win.focusMaster),
-
              -- Shrink the master area.
              ((mod, xK_h), sendMessage Shrink),
-
              -- Expand the master area.
              ((mod, xK_l), sendMessage Expand),
-             
              -- Increment the number of windows in the master area.
              ((mod, xK_comma), sendMessage (IncMasterN 1)),
-
              -- Decrement the number of windows in the master area.
              ((mod, xK_period), sendMessage (IncMasterN (-1))),
 
@@ -161,7 +154,6 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
          ---- Making New Windows 
              -- Spawn a term.
              ((mod .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf),
-             
              -- Spawn Rofi.
              -- TODO: make this generic
              ((mod, xK_p), spawn myLauncher),
@@ -169,65 +161,51 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
          ---- Layouts
              --  Reset the layouts on the current workspace to default.
              ((mod .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf),    
-             
              -- Rotate through the available layout algorithms.
              ((mod, xK_space), sendMessage NextLayout),
          
          ---- Media     
              -- Mute volume.
              ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle"),
-
              -- Decrease volume.
              ((0, xF86XK_AudioRaiseVolume), spawn "amixer set Master 5%+"),
-
              -- Increase volume.
              ((0, xF86XK_AudioLowerVolume),
              spawn "amixer set Master 5%-"),
-
              -- Audio previous.
              ((0, 0x1008FF16), spawn ""),
-
              -- Play/pause.
              ((0, 0x1008FF14), spawn ""),
-
              -- Audio next. 
              ((0, 0x1008FF17), spawn ""),
          
          ---- Screen
              -- Raise Brightness
              ((0, xF86XK_MonBrightnessUp), spawn "lux -a 5%"),
-             
              -- Lower Brightness
              ((0, xF86XK_MonBrightnessDown), spawn "lux -s 5%"),
 
          ---- Meta         
              -- Quit xmonad.
              ((mod .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
-             
              -- Toggle struts (bar visibility)
              ((mod, xK_b), sendMessage ToggleStruts),
-             
              -- Lock the screen.
              -- Lock the screen using command specified by myScreensaver.
              ((mod .|. shiftMask, xK_l), spawn myScreenSaver),
-             
              -- Restart xmonad.
              ((mod, xK_q), restart "xmonad" True)]
-            
-             
             ++
-        
         ---- Workspaces
         -- Switch workspaces.
         [((m .|. mod, k), windows $ f i)
             | (i,k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
             , (f,m) <- [(Win.greedyView, 0), (Win.shift, shiftMask)]]
-            
             ++
         ---- Screens
         -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
         -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-        -- TODO: questoin? when will I use this?
+        -- TODO: question? when will I use this?
         [((m .|. mod, key), screenWorkspace sc >>= flip whenJust (windows . f))
             | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
             , (f, m) <- [(Win.view, 0), (Win.shift, shiftMask)]]
@@ -243,14 +221,11 @@ myMouseBindings (XConfig {XMonad.modMask = mod}) = DataMap.fromList $
     -- mod-button1, Set the window to floating mode and move by dragging
     ((mod, button1),
      (\w -> focus w >> mouseMoveWindow w))
-
     -- mod-button2, Raise the window to the top of the stack
     , ((mod, button2),
        (\w -> focus w >> windows Win.swapMaster))
-
     -- mod-button3, Set the window to floating mode and resize by dragging
     , ((mod, button3),
        (\w -> focus w >> mouseResizeWindow w))
-
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
   ]
