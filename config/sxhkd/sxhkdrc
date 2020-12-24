@@ -7,7 +7,7 @@ super + Return
    alacritty 
 
 # program launcher
-super + @space
+super + p
     rofi -show run	
 
 # make sxhkd reload its configuration files:
@@ -19,7 +19,7 @@ super + Escape
 #
 
 # quit/restart bspwm
-super + alt + {q,r}
+super + shift + {q,r}
 	bspc {quit,wm -r}
 
 # close and kill
@@ -122,5 +122,5 @@ super + {Left,Down,Up,Right}
 
 # lock screen
 super + s
-    i3lock
+    sh $HOME/.scripts/lock.sh $HOME/.xmonad/wallpapers/lock.png
 
