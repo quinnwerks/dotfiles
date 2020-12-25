@@ -8,6 +8,7 @@ import System.IO
 import System.Exit
 -- Xmonad Imports --
 import XMonad
+import Xresources
 -- This is the xmonad config function that works 
 import XMonad.Config.Desktop
 import XMonad.Hooks.ManageDocks
@@ -59,6 +60,7 @@ main = do
 myStartupHook = do
     -- Set desktop background (don't want to rely on an xessionrc).
     spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/firewatch.png &"
+    spawnOnce "xrdb ~/.Xresources"
 
 -- Manage Hook --
 ---- Execute arbrary instructions upon creation of a new window.
@@ -78,16 +80,14 @@ myModMask = mod4Mask
 -- Border Width --
 ---- Width of window border in pixels.
 myBorderWidth = 3 
-myBorderColor = "#ff5555"
+myBorderColor = fromXres "*.color1"
 
 -- Workspaces --
 ---- Configure workspaces.
 myWorkspaces = map show [1..9]
 
-
 -- Pretty Printer --
 ---- Configure the pretty printer
-
 -- Set up StdInReader for each bar.
 myPPOutput :: [Handle] -> Int -> String -> IO()
 myPPOutput handles 0 x = hPutStrLn (handles !! 0) x
@@ -100,10 +100,10 @@ myPPOutput handles n x = do
 myPP :: [Handle] -> PP 
 myPP handles = xmobarPP 
                 {   ppOutput = \x -> myPPOutput handles (length handles - 1) x,
-                    ppCurrent = xmobarColor "#f1fa8c" "",
-                    ppHidden = xmobarColor "#6272a4" "",
-                    ppTitle = xmobarColor "#595959" "" . shorten 80,
-                    ppLayout = xmobarColor "#8a8a8a" ""
+                    ppCurrent = xmobarColor (fromXres "*.color1") "",
+                    ppHidden = xmobarColor (fromXres "*.color8") "",
+                    ppTitle = xmobarColor (fromXres "*.color8") "" . shorten 80,
+                    ppLayout = xmobarColor (fromXres "*.color7") ""
                 } 
 
 -- Screen Saver --
