@@ -32,9 +32,15 @@ import Graphics.X11.ExtraTypes.XF86
 -- Allows bar to update in real time
 import XMonad.Hooks.DynamicLog
 
+xmobarBgColor = fromXres "*.color0"
+xmobarFgColor = fromXres "*.color15"
+
 main = do
     n <- countScreens
-    xmprocs <- mapM(\i -> spawnPipe $ "xmobar $HOME/.xmobar/xmobar.hs" ++ " -x " ++ show i) [0..n-1]
+    xmprocs <- mapM(\i -> spawnPipe $ "xmobar " ++ 
+                                      "-B \"" ++ xmobarBgColor ++  "\" " ++
+                                      "-F \"" ++ xmobarFgColor ++  "\" " ++
+                                      "$HOME/.xmobar/xmobar.hs" ++ " -x " ++ show i) [0..n-1]
     xmonad $ desktopConfig 
         {  terminal = myTerminal,
            -- Layout Hook
@@ -60,7 +66,7 @@ main = do
 myStartupHook = do
     -- Set desktop background (don't want to rely on an xessionrc).
     spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/firewatch.png &"
-    spawnOnce "xrdb ~/.Xresources"
+    spawnOnce "xrdb ~/.Xresources &"
 
 -- Manage Hook --
 ---- Execute arbrary instructions upon creation of a new window.
@@ -100,10 +106,10 @@ myPPOutput handles n x = do
 myPP :: [Handle] -> PP 
 myPP handles = xmobarPP 
                 {   ppOutput = \x -> myPPOutput handles (length handles - 1) x,
-                    ppCurrent = xmobarColor (fromXres "*.color1") "",
-                    ppHidden = xmobarColor (fromXres "*.color8") "",
-                    ppTitle = xmobarColor (fromXres "*.color8") "" . shorten 80,
-                    ppLayout = xmobarColor (fromXres "*.color7") ""
+                    ppCurrent = xmobarColor (fromXres "*.color11") "",
+                    ppHidden = xmobarColor (fromXres "*.color7") "",
+                    ppTitle = xmobarColor (fromXres "*.color7") "" . shorten 80,
+                    ppLayout = xmobarColor (fromXres "*.color15") ""
                 } 
 
 -- Screen Saver --
