@@ -68,6 +68,14 @@ function ssh2ecf() {
 function ssh2clp() {
     ssh quinn@capstoneclp.com
 }
+
+# vim aliasing
+HAS_NVIM=$(which nvim)
+if [[ $HAS_NVIM != "nvim not found" ]] 
+then
+    alias vim="nvim"
+fi
+
 #
 # Configure the prompt
 #
