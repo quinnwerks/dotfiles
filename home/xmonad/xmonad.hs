@@ -9,7 +9,7 @@ import System.Exit
 -- Xmonad Imports --
 import XMonad
 import Xresources
--- This is the xmonad config function that works 
+-- This is the xmonad config function that works
 import XMonad.Config.Desktop
 import XMonad.Hooks.ManageDocks
 -- Layouts
@@ -26,7 +26,7 @@ import XMonad.Util.SpawnOnce
 -- Data Structure Imports --
 import qualified Data.Map        as DataMap
 import qualified XMonad.StackSet as Win
-import Graphics.X11.ExtraTypes.XF86  
+import Graphics.X11.ExtraTypes.XF86
 
 -- Status Bar
 -- Allows bar to update in real time
@@ -37,11 +37,11 @@ xmobarFgColor = fromXres "*.color15"
 
 main = do
     n <- countScreens
-    xmprocs <- mapM(\i -> spawnPipe $ "xmobar " ++ 
+    xmprocs <- mapM(\i -> spawnPipe $ "xmobar " ++
                                       "-B \"" ++ xmobarBgColor ++  "\" " ++
                                       "-F \"" ++ xmobarFgColor ++  "\" " ++
                                       "$HOME/.xmobar/xmobar.hs" ++ " -x " ++ show i) [0..n-1]
-    xmonad $ desktopConfig 
+    xmonad $ desktopConfig
         {  terminal = myTerminal,
            -- Layout Hook
            startupHook =  myStartupHook,
@@ -65,7 +65,7 @@ main = do
 ---- Execute instructions on start or restart of Xmonad.
 myStartupHook = do
     -- Set desktop background (don't want to rely on an xessionrc).
-    spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/firewatch.png &"
+    spawnOnce "feh --bg-scale ~/.xmonad/wallpapers/foggy_forest.jpg &"
     spawnOnce "xrdb ~/.Xresources &"
 
 -- Manage Hook --
@@ -74,10 +74,10 @@ myManageHook = manageDocks <+> manageHook defaultConfig
 
 -- Layout Hook --
 ---- Change the look of layouts.
-myLayoutHook =  spacingRaw True (Border 0 5 5 5) True (Border 5 5 5 5) True $ avoidStruts  (
+myLayoutHook =  spacingRaw True (Border 0 15 15 15) True (Border 15 15 15 15) True $ avoidStruts  (
                 Tall 1 (3/100) (1/2)  |||
                 Mirror (Tall 1 (3/100) (3/5))
-                ) ||| noBorders (fullscreenFull Full) 
+                ) ||| noBorders (fullscreenFull Full)
 
 myTerminal = "st"
 
@@ -85,7 +85,7 @@ myModMask = mod4Mask
 
 -- Border Width --
 ---- Width of window border in pixels.
-myBorderWidth = 3 
+myBorderWidth = 3
 myBorderColor = fromXres "*.color1"
 
 -- Workspaces --
@@ -97,24 +97,24 @@ myWorkspaces = map show [1..9]
 -- Set up StdInReader for each bar.
 myPPOutput :: [Handle] -> Int -> String -> IO()
 myPPOutput handles 0 x = hPutStrLn (handles !! 0) x
-myPPOutput handles n x = do 
-                         io <- hPutStrLn (handles !! n) x 
+myPPOutput handles n x = do
+                         io <- hPutStrLn (handles !! n) x
                          io <- myPPOutput handles (n-1) x
                          return io
 
 -- Get the pretty printer
-myPP :: [Handle] -> PP 
-myPP handles = xmobarPP 
+myPP :: [Handle] -> PP
+myPP handles = xmobarPP
                 {   ppOutput = \x -> myPPOutput handles (length handles - 1) x,
                     ppCurrent = xmobarColor (fromXres "*.color11") "",
                     ppHidden = xmobarColor (fromXres "*.color7") "",
                     ppTitle = xmobarColor (fromXres "*.color7") "" . shorten 80,
                     ppLayout = xmobarColor (fromXres "*.color15") ""
-                } 
+                }
 
 -- Screen Saver --
----- Set up command to lock the screen 
-myScreenSaver = "sh $HOME/.scripts/lock.sh $HOME/.xmonad/wallpapers/lock.png" 
+---- Set up command to lock the screen
+myScreenSaver = "sh $HOME/.scripts/lock.sh $HOME/.xmonad/wallpapers/lock.png"
 
 -- Program Launcher --
 ---- Set up command to run window launcher
@@ -138,7 +138,7 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
              ((mod .|. shiftMask, xK_k), windows Win.swapUp),
              -- Close focused window.
              ((mod.|. shiftMask, xK_c), kill),
-         
+
          ---- Master Window
              -- Swap the focused window and the master window.
              ((mod, xK_Return), windows Win.swapMaster),
@@ -157,20 +157,20 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
               -- Push window back into tiling.
               ((mod, xK_t), withFocused $ windows . Win.sink),
 
-         ---- Making New Windows 
+         ---- Making New Windows
              -- Spawn a term.
              ((mod .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf),
              -- Spawn Rofi.
              -- TODO: make this generic
              ((mod, xK_p), spawn myLauncher),
-           
+
          ---- Layouts
              --  Reset the layouts on the current workspace to default.
-             ((mod .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf),    
+             ((mod .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf),
              -- Rotate through the available layout algorithms.
              ((mod, xK_space), sendMessage NextLayout),
-         
-         ---- Media     
+
+         ---- Media
              -- Mute volume.
              ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle"),
              -- Decrease volume.
@@ -182,16 +182,16 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
              ((0, 0x1008FF16), spawn ""),
              -- Play/pause.
              ((0, 0x1008FF14), spawn ""),
-             -- Audio next. 
+             -- Audio next.
              ((0, 0x1008FF17), spawn ""),
-         
+
          ---- Screen
              -- Raise Brightness
              ((0, xF86XK_MonBrightnessUp), spawn "lux -a 5%"),
              -- Lower Brightness
              ((0, xF86XK_MonBrightnessDown), spawn "lux -s 5%"),
 
-         ---- Meta         
+         ---- Meta
              -- Quit xmonad.
              ((mod .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
              -- Toggle struts (bar visibility)
