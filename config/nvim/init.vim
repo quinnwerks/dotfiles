@@ -21,6 +21,7 @@ call plug#begin('~/.config/nvim/plugins')
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'arcticicestudio/nord-vim'
     Plug 'ghifarit53/daycula-vim'
+    Plug 'morhetz/gruvbox'
 
     " Airline for better statuses
     Plug 'vim-airline/vim-airline'
@@ -47,7 +48,7 @@ unlet plug_install
 """"""""""""""""""""""""""""""
 " Colours
 """"""""""""""""""""""""""""""
-colorscheme nord
+colorscheme gruvbox
 set termguicolors
 
 """"""""""""""""""""""""""""""
@@ -77,7 +78,11 @@ set showmatch
 
 let NERDTreeShowHidden=1
 
+" Get horizontal line where cursor is
 set cursorline
+
+" Turn off crappy status line
+set noshowmode
 
 """"""""""""""""""""""""""""""
 " Linter Setup

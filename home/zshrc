@@ -23,7 +23,7 @@ setopt CORRECT
 setopt CORRECT_ALL
 
 # Enable better tab completion
-autoload -U compinit 
+autoload -U compinit
 zstyle ":completion:*" menu select
 zmodload zsh/complist
 compinit
@@ -40,7 +40,7 @@ function sourceZshFile() {
 }
 sourceZshFile ~/.zsh_paths;
 
-# 
+#
 # Aliases & Shortcuts
 #
 
@@ -57,7 +57,7 @@ function ssh2ug() {
     local UG_MACHINE_NUMBER="169"
     if [[ -n $1 ]]; then
         UG_MACHINE_NUMBER=$1
-    fi 
+    fi
     ssh smithqu1@ug$UG_MACHINE_NUMBER.eecg.utoronto.ca
 }
 
@@ -69,9 +69,21 @@ function ssh2clp() {
     ssh quinn@capstoneclp.com
 }
 
+# Vivado setup
+function vivado-lic {
+    echo "Keep this shell open as long as you are using vivado"
+    ssh -L 27012:mlm.ece.utoronto.ca:27012 -L 40012:mlm.ece.utoronto.ca:40012 smithqu1@ug54.eecg.utoronto.ca
+}
+
+if [ -e /tools/Xilinx ]
+then
+    source /tools/Xilinx/Vivado/2018.3/settings64.sh
+    export LM_LICENSE_FILE=40012@localhost:27012@localhost
+fi
+
 # vim aliasing
 HAS_NVIM=$(which nvim)
-if [[ $HAS_NVIM != "nvim not found" ]] 
+if [[ $HAS_NVIM != "nvim not found" ]]
 then
     alias vim="nvim"
 fi
@@ -81,7 +93,7 @@ fi
 #
 
 # TODO: make this better
-setopt PROMPT_SUBST 
+setopt PROMPT_SUBST
 
 # Assume we have colors available. This isn't the 1990's.
 autoload colors && colors
@@ -93,7 +105,7 @@ zstyle ':vcs_info:*' enable git
 precmd() { vcs_info }
 
 zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:*'    formats "%b─%m%u%c" 
+zstyle ':vcs_info:*'    formats "%b─%m%u%c"
 
 
 # The purposes of the following functions are obvious
