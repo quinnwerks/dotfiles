@@ -96,7 +96,6 @@ polybarHook dbus =
           , ppVisible         = wrapper gray
           , ppUrgent          = wrapper orange
           , ppHidden          = wrapper gray
-          , ppHiddenNoWindows = wrapper red
           , ppTitle           = shorten 100 . wrapper purple
           }
 myPolybarLogHook dbus = dynamicLogWithPP (polybarHook dbus)
@@ -215,7 +214,7 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
 
          ---- Media
              -- Mute volume.
-             ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle"),
+             ((0, xF86XK_AudioMute), spawn "amixer set Master toggle"),
              -- Decrease volume.
              ((0, xF86XK_AudioRaiseVolume), spawn "amixer set Master 5%+"),
              -- Increase volume.
