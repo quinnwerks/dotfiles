@@ -43,6 +43,7 @@ main = mkDbusClient >>= main'
 
 main' :: D.Client -> IO()
 main' dbus = do
+    spawnPipe "polybar example &"
     xmonad $ desktopConfig
         {  terminal = myTerminal,
 	   logHook = myPolybarLogHook dbus,
