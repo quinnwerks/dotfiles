@@ -31,23 +31,25 @@ import Graphics.X11.ExtraTypes.XF86
 -- Status Bar
 -- Allows bar to update in real time
 import XMonad.Hooks.DynamicLog
+import qualified Codec.Binary.UTF8.String as UTF8
+import qualified DBus        as D
+import qualified DBus.Client as D
 
 xmobarBgColor = fromXres "*.color0"
 xmobarFgColor = fromXres "*.color15"
 
-main = do
-    n <- countScreens
-    xmprocs <- mapM(\i -> spawnPipe $ "xmobar " ++
-                                      "-B \"" ++ xmobarBgColor ++  "\" " ++
-                                      "-F \"" ++ xmobarFgColor ++  "\" " ++
-                                      "$HOME/.xmobar/xmobar.hs" ++ " -x " ++ show i) [0..n-1]
+main :: IO() 
+main = mkDbusClient >>= main'
+
+main' :: D.Client -> IO()
+main' dbus = do
     xmonad $ desktopConfig
         {  terminal = myTerminal,
+	   logHook = myPolybarLogHook dbus,
            -- Layout Hook
            startupHook =  myStartupHook,
            manageHook = manageDocks <+> manageHook defaultConfig,
            layoutHook = avoidStruts  $  myLayoutHook,
-           logHook = dynamicLogWithPP $ myPP(xmprocs),
            -- Aesthetics --
            borderWidth = myBorderWidth,
            focusedBorderColor = myBorderColor,
@@ -60,6 +62,43 @@ main = do
            focusFollowsMouse = myFocusFollowsMouse,
            mouseBindings = myMouseBindings
         }
+
+mkDbusClient :: IO D.Client
+mkDbusClient = do
+  dbus <- D.connectSession
+  D.requestName dbus (D.busName_ "org.xmonad.log") opts
+  return dbus
+ where
+  opts = [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
+
+-- Emit a DBus signal on log updates
+dbusOutput :: D.Client -> String -> IO ()
+dbusOutput dbus str =
+  let opath  = D.objectPath_ "/org/xmonad/Log"
+      iname  = D.interfaceName_ "org.xmonad.Log"
+      mname  = D.memberName_ "Update"
+      signal = (D.signal opath iname mname)
+      body   = [D.toVariant $ UTF8.decodeString str]
+  in  D.emit dbus $ signal { D.signalBody = body }
+
+polybarHook :: D.Client -> PP
+polybarHook dbus =
+  let wrapper c s | s /= "NSP" = wrap ("%{F" <> c <> "} ") " %{F-}" s
+                  | otherwise  = mempty
+      blue   = "#2E9AFE"
+      gray   = "#7F7F7F"
+      orange = "#ea4300"
+      purple = "#9058c7"
+      red    = "#722222"
+  in  def { ppOutput          = dbusOutput dbus
+          , ppCurrent         = wrapper blue
+          , ppVisible         = wrapper gray
+          , ppUrgent          = wrapper orange
+          , ppHidden          = wrapper gray
+          , ppHiddenNoWindows = wrapper red
+          , ppTitle           = shorten 100 . wrapper purple
+          }
+myPolybarLogHook dbus = dynamicLogWithPP (polybarHook dbus)
 
 -- Startup Hook --
 ---- Execute instructions on start or restart of Xmonad.
@@ -79,7 +118,7 @@ myLayoutHook =  spacingRaw True (Border 0 15 15 15) True (Border 15 15 15 15) Tr
                 Mirror (Tall 1 (3/100) (3/5))
                 ) ||| noBorders (fullscreenFull Full)
 
-myTerminal = "st"
+myTerminal = "termite"
 
 myModMask = mod4Mask
 
@@ -95,6 +134,9 @@ myWorkspaces = map show [1..9]
 -- Pretty Printer --
 ---- Configure the pretty printer
 -- Set up StdInReader for each bar.
+
+
+-- xmobar
 myPPOutput :: [Handle] -> Int -> String -> IO()
 myPPOutput handles 0 x = hPutStrLn (handles !! 0) x
 myPPOutput handles n x = do
