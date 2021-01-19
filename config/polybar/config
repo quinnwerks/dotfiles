@@ -50,6 +50,8 @@ padding-right = 2
 
 module-margin-left = 1
 module-margin-right = 2
+margin-top = 0
+margin-bottom = 0
 
 font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
@@ -61,6 +63,7 @@ modules-right = filesystem xbacklight alsa xkeyboard memory cpu wlan eth battery
 
 tray-position = right
 tray-padding = 2
+
 ;tray-background = #0063ff
 
 ;wm-restack = bspwm
@@ -362,7 +365,7 @@ screenchange-reload = true
 ;pseudo-transparency = false
 
 [global/wm]
-margin-top = 5
-margin-bottom = 5
+margin-top = 0
+margin-bottom = 0
 
 ; vim:ft=dosini
