@@ -238,7 +238,9 @@ myKeys conf@(XConfig {XMonad.modMask = mod}) = DataMap.fromList $
              -- Quit xmonad.
              ((mod .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
              -- Toggle struts (bar visibility)
-             ((mod, xK_b), sendMessage ToggleStruts),
+             ((mod, xK_b), do
+                           spawn "polybar-msg cmd toggle" 
+                           sendMessage ToggleStruts),
              -- Lock the screen.
              -- Lock the screen using command specified by myScreensaver.
              ((mod .|. shiftMask, xK_l), spawn myScreenSaver),
