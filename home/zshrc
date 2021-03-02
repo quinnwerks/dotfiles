@@ -61,8 +61,20 @@ function ssh2ug() {
     ssh smithqu1@ug$UG_MACHINE_NUMBER.eecg.utoronto.ca
 }
 
+function ssh2ugx11() {
+    local UG_MACHINE_NUMBER="250"
+    if [[ -n $1 ]]; then
+        UG_MACHINE_NUMBER=$1
+    fi
+    ssh -X smithqu1@ug$UG_MACHINE_NUMBER.eecg.utoronto.ca
+}
+
 function ssh2ecf() {
-    ssh smithqu1@remote.ecf.utoronto.ca
+    local ECF_MACHINE_NUMBER="100"
+    if [[ -n $1 ]]; then
+        ECF_MACHINE_NUMBER=$1
+    fi
+    ssh smithqu1@p$ECF_MACHINE_NUMBER.ecf.utoronto.ca
 }
 
 function ssh2clp() {
