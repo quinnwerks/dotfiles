@@ -58,8 +58,8 @@ font-1 = IBMPlexMono:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
 
 modules-left = xmonad
-modules-center = 
-modules-right = filesystem xbacklight alsa xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-center =
+modules-right = xbacklight alsa xkeyboard wlan eth battery temperature date
 
 tray-position = right
 tray-padding = 2
@@ -157,7 +157,7 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp2s0 
+interface = wlp2s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
