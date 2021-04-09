@@ -38,6 +38,9 @@ call plug#begin('~/.config/nvim/plugins')
 
     " Linter
     Plug 'w0rp/ale'
+
+    " Rust
+    Plug 'rust-lang/rust.vim'
 call plug#end()
 
 if plug_install
@@ -90,12 +93,16 @@ set noshowmode
 " Turn off C/C++ linters. They don't work very well.
 let g:ale_linters = {
 \   'c': [], 'cpp': [],
-\   'python':['pylint']
+\   'python':['pylint'],
+\   'rust':['rls']
 \}
+let g:ale_rust_rls_executable = 'rls'
+let g:ale_rust_rls_toolchain = 'stable'
 
 " Fix code as I write :-)
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'rust':['rustfmt']
 \}
 let g:ale_fix_on_save = 1
 " Error and warning signs.
